@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход в PostgreSQL · Лабораторная 1</title>
+  <style>
+    :root {font-family:Segoe UI,Arial,sans-serif;color:#17263c;background:#f1f4f8;font-synthesis:none}
+    * {box-sizing:border-box}
+    body {margin:0;min-height:100vh}
+    header {border-bottom:1px solid #dce3ed;background:#fff}
+    .header-inner {max-width:1100px;margin:auto;padding:22px 32px;display:flex;align-items:center;gap:12px}
+    .mark {width:38px;height:38px;border-radius:11px;background:#2359d1;color:white;display:grid;place-items:center;font-weight:700;font-size:14px}
+    .brand {font-weight:650;font-size:16px}.subtitle {font-size:12px;color:#68788f;margin-top:3px}
+    .badge {margin-left:auto;font-size:12px;background:#edf3ff;color:#315cb3;border-radius:20px;padding:7px 12px}
+    main {max-width:1100px;margin:62px auto;padding:0 32px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start}
+    .eyebrow {font-size:12px;font-weight:700;letter-spacing:1.8px;color:#315fc0;margin:10px 0 17px}
+    h1 {font-size:40px;letter-spacing:-1.3px;line-height:1.15;margin:0 0 20px;font-weight:700}
+    .intro {color:#596b83;font-size:16px;line-height:1.7;margin:0 0 30px;max-width:440px}
+    .steps {list-style:none;padding:0;margin:0;display:grid;gap:22px}
+    .steps li {display:flex;gap:14px;align-items:flex-start;font-size:14px;line-height:1.5}
+    .number {border:1px solid #cbd7eb;background:#f9fbff;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;flex-shrink:0;color:#315fc0;font-size:12px;font-weight:700}
+    .steps strong {display:block;font-weight:600}.steps small {display:block;color:#6b7a90;font-size:13px;margin-top:3px}
+    .card {background:white;border:1px solid #dfe5ee;border-radius:18px;padding:32px;box-shadow:0 12px 40px #18325608}
+    h2 {font-size:23px;letter-spacing:-.4px;margin:0 0 8px}.hint {font-size:14px;color:#6b7a90;line-height:1.6;margin:0 0 26px}
+    label {display:block;font-size:13px;font-weight:600;margin:20px 0 8px}
+    input {width:100%;border:1px solid #cbd5e2;border-radius:9px;font:inherit;font-size:15px;padding:12px 13px;color:#17263c;background:#fff}
+    input:focus {outline:3px solid #dbe7ff;border-color:#4674d5}
+    button {font:inherit;cursor:pointer}.submit {width:100%;border:0;background:#2359d1;color:white;padding:14px;border-radius:9px;font-size:14px;font-weight:600;margin-top:25px}
+    .submit:hover {background:#1948b4}.submit:disabled {opacity:.6;cursor:wait}
+    .note {font-size:12px;color:#7a8799;line-height:1.6;margin:16px 0 0}
+    .feedback {margin:20px 0 0;padding:14px 16px;border-radius:9px;font-size:14px;line-height:1.6}
+    .error {background:#fff1f1;color:#a32c37;border:1px solid #f4d4d7}
+    .result {margin-top:24px;border-top:1px solid #e5eaf1;padding-top:24px}
+    .success {color:#177b54;font-weight:650;font-size:16px;margin:0 0 15px;display:flex;align-items:center;gap:8px}
+    .tick {display:inline-grid;place-items:center;width:23px;height:23px;background:#e4f5eb;border-radius:50%}
+    dl {display:grid;grid-template-columns:auto 1fr;gap:9px 20px;font-size:13px;margin:0 0 18px}dt {color:#718097}dd {margin:0;overflow-wrap:anywhere}
+    .query {display:block;background:#f3f6fa;border-radius:8px;padding:12px;font-size:13px;color:#365175;margin-bottom:10px}
+    pre {font-family:Consolas,monospace;font-size:12px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;padding:13px;background:#f8fafc;border:1px solid #e4eaf2;border-radius:8px}
+    [hidden] {display:none!important}
+    @media(max-width:760px) {main {grid-template-columns:1fr;gap:28px;margin:30px auto;padding:0 20px}h1 {font-size:32px}.card {padding:24px}.header-inner {padding:18px 20px}.steps {gap:14px}.badge {display:none}}
+  </style>
+</head>
+<body>
+  <header><div class="header-inner"><div class="mark">PG</div><div><div class="brand">PostgreSQL</div><div class="subtitle">Лабораторная работа №1</div></div><span class="badge">Локальный учебный стенд</span></div></header>
+  <main>
+    <section>
+      <div class="eyebrow">ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ</div>
+      <h1>Войди и проверь<br>соединение.</h1>
+      <p class="intro">Введи учётные данные PostgreSQL. Приложение подключится к базе и покажет версию сервера.</p>
+      <ol class="steps">
+        <li><span class="number">1</span><div><strong>Введи логин и пароль</strong><small>Используй свою учётную запись базы данных.</small></div></li>
+        <li><span class="number">2</span><div><strong>Нажми «Подключиться»</strong><small>Сервер PostgreSQL проверит учётные данные.</small></div></li>
+        <li><span class="number">3</span><div><strong>Посмотри результат</strong><small>Успешное подключение и версия или сообщение об ошибке.</small></div></li>
+      </ol>
+    </section>
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Вход в PostgreSQL</h2>
+      <p class="hint">Проверка подключения к учебной базе.</p>
+      <form id="login">
+        <label for="username">Логин</label>
+        <input id="username" name="username" value="lab_user" autocomplete="username" required maxlength="1024" spellcheck="false">
+        <label for="password">Пароль</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required maxlength="1024" placeholder="Введи пароль пользователя">
+        <button class="submit" id="submit" type="submit">Подключиться</button>
+      </form>
+      <p class="note">Каждая проверка создаёт новое подключение. Пароль не записывается в журнал приложения.</p>
+      <div id="error" class="feedback error" role="alert" hidden></div>
+      <div id="result" class="result" role="status" aria-live="polite" hidden>
+        <p class="success"><span class="tick">✓</span>Подключение успешно</p>
+        <dl><dt>Пользователь</dt><dd id="result-user"></dd><dt>База данных</dt><dd id="result-db"></dd></dl>
+        <code class="query">SELECT VERSION();</code>
+        <pre id="version"></pre>
+        <p class="note">Запрос выполнен, соединение закрыто. Можно проверить другую учётную запись.</p>
+      </div>
+    </section>
+  </main>
+  <script>
+    const form = document.getElementById('login');
+    const button = document.getElementById('submit');
+    const error = document.getElementById('error');
+    const result = document.getElementById('result');
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      error.hidden = true; result.hidden = true;
+      button.disabled = true; button.textContent = 'Подключение…';
+      const username = document.getElementById('username').value;
+      const passwordField = document.getElementById('password');
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch('/api/connect', {
+          method:'POST', headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({username, password:passwordField.value}), signal:controller.signal
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || 'Не удалось подключиться.');
+        document.getElementById('result-user').textContent = data.username;
+        document.getElementById('result-db').textContent = data.database;
+        document.getElementById('version').textContent = data.version;
+        result.hidden = false;
+      } catch (exception) {
+        error.textContent = exception.name === 'AbortError'
+          ? 'Время ожидания истекло. Проверьте доступность базы и повторите попытку.'
+          : exception instanceof TypeError ? 'Сервис недоступен. Проверьте запуск контейнеров.' : exception.message;
+        error.hidden = false;
+      } finally {
+        clearTimeout(timeout); passwordField.value = '';
+        button.disabled = false; button.textContent = 'Подключиться';
+      }
+    });
+  </script>
+</body>
+</html>

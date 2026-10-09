@@ -1,0 +1,6 @@
+{
+  "host": "db",
+  "port": 5432,
+  "dbname": "lab1",
+  "connect_timeout": 5
+}
